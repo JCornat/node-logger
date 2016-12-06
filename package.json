@@ -1,9 +1,8 @@
 {
   "name": "node-logger-c7z",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Basic Node.js logger module",
   "main": "index.js",
-  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JCornat/node-logger.git"
