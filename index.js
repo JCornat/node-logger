@@ -1,6 +1,6 @@
 "use strict";
 var fs = require("fs");
-var logDirectory = __dirname + "/../log";
+var logDirectory = __dirname + "/../../log";
 function write() {
     var data = [];
     for (var _i = 0; _i < arguments.length; _i++) {

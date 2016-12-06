@@ -1,6 +1,6 @@
 import * as fs from "fs";
 
-const logDirectory = `${__dirname}/../log`
+const logDirectory = `${__dirname}/../../log`
 
 export function write(...data: any[]) {
     try {
