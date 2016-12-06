@@ -1,0 +1,26 @@
+{
+  "name": "node-logger",
+  "version": "0.0.1",
+  "description": "Basic Node.js logger module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JCornat/node-logger.git"
+  },
+  "keywords": [
+    "node",
+    "node.js",
+    "nodejs",
+    "log",
+    "logger",
+    "cornat",
+    "jcornat"
+  ],
+  "author": "Jacques Cornat",
+  "license": "CC-BY-4.0",
+  "bugs": {
+    "url": "https://github.com/JCornat/node-logger/issues"
+  },
+  "homepage": "https://github.com/JCornat/node-logger#readme"
+}
