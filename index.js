@@ -8,7 +8,7 @@ function write() {
     }
     try {
         var log = aggregate(data);
-        console.error(log);
+        console.log(log);
     }
     catch (error) {
         console.error(error);

@@ -5,7 +5,7 @@ const logDirectory = `${__dirname}/../../log`
 export function write(...data: any[]) {
     try {
         let log = aggregate(data);
-        console.error(log);
+        console.log(log);
     } catch (error) {
         console.error(error);
         return;
