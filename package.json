@@ -1,6 +1,6 @@
 {
   "name": "node-logger-c7z",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Basic Node.js logger module",
   "main": "index.js",
   "repository": {
