@@ -1,7 +1,6 @@
 #node-logger
 
 Basic Node.js logger module.  
-Writes inside `../../log` folder.
 
 ##How to use
 
@@ -9,19 +8,21 @@ Writes inside `../../log` folder.
 import * as Log from "node-logger-c7z"; //TypeScript way
 // var Log = require('node-logger-c7z'); //JavaScript way
 
-Log.write('WAW');
-Log.writeError(error, myArray, randomObject);
+Log.info('WAW'); //Output: 2016-12-07T19:33:59.573Z - test\index.js:4 - WAW
+Log.debug(['foo', 'bar'], {foo: 'bar'}); //Output: 2016-12-07T19:33:59.589Z - test\index.js:5 - ["foo","bar"], {"foo":"bar"}
+Log.error({error: 418, reason: 'because'}); //Output: 2016-12-07T19:33:59.590Z - test\index.js:6 - {"error":418,"reason":"because"}
 ```
 
 ##How does it log ?
 
 It writes log inside a `log` folder, sibling of `node_modules` folder.  
 The files are named like `YYYYMMDD.log` and `YYYYMMDD.error.log`.  
-Moreover, `write` function will do a `console.log` and `writeError` function will do a `console.error`. 
+Moreover, `node-logger-c7z`'s functions will print a `console.log` or a `console.error` in console. 
 
 ## Declaration file for TypeScript users
 
 ```
-declare function write(...args: any[]): void;
-declare function writeError(...args: any[]): void;
+declare function info(...args: any[]): void;
+declare function debug(...args: any[]): void;
+declare function error(...args: any[]): void;
 ```
