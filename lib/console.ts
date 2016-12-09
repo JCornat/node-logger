@@ -42,8 +42,15 @@ export function warning(...data: any[]) {
 
 function aggregate(level: string, data: any[]): string {
     let stack = (new Error()).stack.split('\n')[3];
-    var regExp = /((\w*)\\\w*\.\w*):(\d*)/i;
-    let line = `${(new Date()).toISOString()} - ${regExp.exec(stack)[0]} - `;
+    let windowsRegExp = /((\w*)\\\w*\.\w*):(\d*)/i;
+    let linuxRegExp = /((\w*)\/\w*\.\w*):(\d*)/i;
+    let fileLine = ' - ';
+    if (windowsRegExp.exec(stack)) {
+        fileLine = (windowsRegExp.exec(stack))[0] + fileLine;
+    } else if (linuxRegExp.exec(stack)) {
+        fileLine = (linuxRegExp.exec(stack))[0] + fileLine;
+    }
+    let string = `${(new Date()).toISOString()} - ${fileLine}`;
 
     data.map((item, i) => {
         switch (typeof item) {
@@ -52,29 +59,29 @@ function aggregate(level: string, data: any[]): string {
             case 'boolean':
             case 'undefined':
             case null:
-                line += item;
+                string += item;
                 break;
             case 'object':
-                line += JSON.stringify(item);
+                string += JSON.stringify(item);
                 break;
             default:
                 throw (`BAD TYPE ${typeof item}`);
         }
         if (i < data.length - 1) {
-            line += `, `;
+            string += `, `;
         }
     });
 
     switch (level) {
         case 'error':
         case 'warning':
-            console.error(line);
+            console.error(string);
             break;
         default:
-            console.log(line);
+            console.log(string);
             break;
     }
 
-    line += `\n`;
-    return line;
+    string += `\n`;
+    return string;
 }
