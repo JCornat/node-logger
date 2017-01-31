@@ -45,7 +45,6 @@ function aggregate(level: string, data: any[]): string {
     let windowsRegExp = /((\w*)\\\w*\.\w*):(\d*)/i;
     let linuxRegExp = /((\w*)\/\w*\.\w*):(\d*)/i;
     let fileLine = ' - ';
-    console.log(stack);
     if (windowsRegExp.exec(stack)) {
         fileLine = (windowsRegExp.exec(stack))[0] + fileLine;
     } else if (linuxRegExp.exec(stack)) {
