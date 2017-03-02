@@ -5,7 +5,7 @@ Basic Node.js logger module.
 ##How to use
 
 ```
-import * as Log from "node-logger-c7z"; //TypeScript way
+import * as Log from 'node-logger-c7z'; //TypeScript way
 // var Log = require('node-logger-c7z'); //JavaScript way
 
 Log.info('WAW'); //Output: 2016-12-07T19:33:59.573Z - test\index.js:4 - WAW
@@ -17,7 +17,6 @@ Log.error({error: 418, reason: 'because'}); //Output: 2016-12-07T19:33:59.590Z -
 
 It writes log inside a `log` folder, sibling of `node_modules` folder.  
 The files are named like `YYYYMMDD.log` and `YYYYMMDD.error.log`.  
-Moreover, `node-logger-c7z`'s functions will print a `console.log` or a `console.error` in console. 
 
 ## Declaration file for TypeScript users
 

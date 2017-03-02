@@ -6,7 +6,6 @@ export function info(...data: any[]) {
         File.write(type, aggregate(type, data));
     } catch (error) {
         console.error(error);
-        return;
     }
 }
 
@@ -16,7 +15,6 @@ export function debug(...data: any[]) {
         File.write(type, aggregate(type, data));
     } catch (error) {
         console.error(error);
-        return;
     }
 }
 
@@ -26,7 +24,6 @@ export function error(...data: any[]) {
         File.write(type, aggregate(type, data));
     } catch (error) {
         console.error(error);
-        return;
     }
 }
 
@@ -36,14 +33,13 @@ export function warning(...data: any[]) {
         File.write(type, aggregate(type, data));
     } catch (error) {
         console.error(error);
-        return;
     }
 }
 
 function aggregate(level: string, data: any[]): string {
-    let stack = (new Error()).stack.split('\n')[3];
-    let windowsRegExp = /((\w*)\\\w*\.\w*):(\d*)/i;
-    let linuxRegExp = /((\w*)\/\w*\.\w*):(\d*)/i;
+    let stack: string = (new Error()).stack.split('\n')[3];
+    let windowsRegExp: RegExp = /((\w*)\\\w*\.\w*):(\d*)/i;
+    let linuxRegExp: RegExp = /((\w*)\/\w*\.\w*):(\d*)/i;
     let fileLine = ' - ';
     if (windowsRegExp.exec(stack)) {
         fileLine = (windowsRegExp.exec(stack))[0] + fileLine;
@@ -71,16 +67,6 @@ function aggregate(level: string, data: any[]): string {
             string += `, `;
         }
     });
-
-    switch (level) {
-        case 'error':
-        case 'warning':
-            console.error(string);
-            break;
-        default:
-            console.log(string);
-            break;
-    }
 
     string += `\n`;
     return string;
