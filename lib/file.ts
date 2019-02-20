@@ -7,15 +7,7 @@ export function write(level: string, log: string) {
     fs.mkdirSync(logDirectory);
   }
 
-  let currentDate = new Date();
-  let currentYear = currentDate.getUTCFullYear();
-  let currentMonth = (currentDate.getUTCMonth() < 10) ? '0' + (currentDate.getUTCMonth() + 1) : currentDate.getUTCMonth() + 1;
-  let currentDay = (currentDate.getUTCDate() < 10) ? '0' + currentDate.getUTCDate() : currentDate.getUTCDate();
-
-  let extension = (level === 'info') ? `.log` : `.${level}.log`;
-  let fileName = `${currentYear}${currentMonth}${currentDay}${extension}`;
-
-  let stream = fs.createWriteStream(`${logDirectory}/${fileName}`, {flags: 'a'});
+  let stream = fs.createWriteStream(`${logDirectory}/logfile`, {flags: 'a'});
   stream.write(log);
   stream.end();
 }
