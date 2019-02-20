@@ -1,8 +1,8 @@
-#node-logger
+# node-logger
 
 Basic Node.js logger module.  
 
-##How to use
+## How to use
 
 ```
 import * as Log from 'node-logger-c7z'; //TypeScript way
@@ -13,15 +13,7 @@ Log.debug(['foo', 'bar'], {foo: 'bar'}); //Output: 2016-12-07T19:33:59.589Z - te
 Log.error({error: 418, reason: 'because'}); //Output: 2016-12-07T19:33:59.590Z - test\index.js:6 - {"error":418,"reason":"because"}
 ```
 
-##How does it log ?
+## How does it log ?
 
 It writes log inside a `log` folder, sibling of `node_modules` folder.  
 The files are named like `YYYYMMDD.log` and `YYYYMMDD.error.log`.  
-
-## Declaration file for TypeScript users
-
-```
-declare function info(...args: any[]): void;
-declare function debug(...args: any[]): void;
-declare function error(...args: any[]): void;
-```

@@ -23,6 +23,6 @@
   },
   "homepage": "https://github.com/JCornat/node-logger#readme",
   "dependencies": {
-    "@types/node": "^7.0.4"
+    "@types/node": "11.9.4"
   }
 }

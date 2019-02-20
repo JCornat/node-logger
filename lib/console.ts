@@ -1,73 +1,56 @@
-import * as File from "./file";
+import * as File from './file';
 
-export function info(...data: any[]) {
-  const type = 'info';
-  try {
-    File.write(type, aggregate(type, data));
-  } catch (error) {
-    console.error(error);
-  }
+export function info(...data: any[]): void {
+  processLog('info', data);
 }
 
-export function debug(...data: any[]) {
-  const type = 'debug';
-  try {
-    File.write(type, aggregate(type, data));
-  } catch (error) {
-    console.error(error);
-  }
+export function debug(...data: any[]): void {
+  processLog('debug', data);
 }
 
-export function error(...data: any[]) {
-  const type = 'error';
-  try {
-    File.write(type, aggregate(type, data));
-  } catch (error) {
-    console.error(error);
-  }
+export function error(...data: any[]): void {
+  processLog('error', data);
 }
 
-export function warning(...data: any[]) {
-  const type = 'warning';
+export function warning(...data: any[]): void {
+  processLog('warning', data);
+}
+
+function processLog(level: string, data: any[]): void {
   try {
-    File.write(type, aggregate(type, data));
+    const line = aggregate(level, data);
+    File.write(level, line);
   } catch (error) {
     console.error(error);
   }
 }
 
 function aggregate(level: string, data: any[]): string {
-  let stack: string = (new Error()).stack.split('\n')[3];
-  let windowsRegExp: RegExp = /((\w*)\\\w*\.\w*):(\d*)/i;
-  let linuxRegExp: RegExp = /((\w*)\/\w*\.\w*):(\d*)/i;
-  let fileLine = ' - ';
-  if (windowsRegExp.exec(stack)) {
-    fileLine = (windowsRegExp.exec(stack))[0] + fileLine;
-  } else if (linuxRegExp.exec(stack)) {
-    fileLine = (linuxRegExp.exec(stack))[0] + fileLine;
-  }
-  let string = `${(new Date()).toISOString()} - ${fileLine}`;
+  const res = [];
 
-  data.map((item, i) => {
+  const currentDate = new Date();
+  res.push(currentDate.toISOString());
+
+  for (const item of data) {
     switch (typeof item) {
       case 'string':
       case 'number':
       case 'boolean':
       case 'undefined':
       case null:
-        string += item;
+        res.push(item);
         break;
       case 'object':
-        string += JSON.stringify(item);
+        res.push(JSON.stringify(item));
         break;
       default:
-        throw (`BAD TYPE ${typeof item}`);
+        throw new Error(`BAD TYPE ${typeof item}`);
     }
-    if (i < data.length - 1) {
-      string += `, `;
-    }
-  });
+  }
+
+  let string = res.join(', ');
 
   string += `\n`;
+
   return string;
 }
