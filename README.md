@@ -2,18 +2,33 @@
 
 Basic Node.js logger module.  
 
-## How to use
+### Methods available
+
+- debug
+- info
+- error
+- warning
+- critical
+
+### Formatting
+
+Methods should receive an object formatted with those optionnal parameters :
+
+- user
+- action
+- message
+- status
+
+### Example
 
 ```
-import * as Log from 'node-logger-c7z'; //TypeScript way
-// var Log = require('node-logger-c7z'); //JavaScript way
+import * as Log from 'node-logger-c7z'; // TypeScript way
+// var Log = require('node-logger-c7z'); // JavaScript way
 
-Log.info('WAW'); //Output: 2016-12-07T19:33:59.573Z - WAW
-Log.debug(['foo', 'bar'], {foo: 'bar'}); //Output: 2016-12-07T19:33:59.589Z ["foo","bar"], {"foo":"bar"}
-Log.error({error: 418, reason: 'because'}); //Output: 2016-12-07T19:33:59.590Z {"error":418,"reason":"because"}
+Log.info({message: 'Hello World!'}); // Output: {"date":"2019-02-20T17:08:36.870Z",,"message":"WAW"}
+Log.debug({action: 'post', message: 'Message sent successfully', status: 200, user: 'admin'}); // Output: {"date":"2019-02-20T17:08:36.870Z","severity":"debug","action":"post","message":"Message sent successfully","status":200}
 ```
 
-## How does it log ?
+### Output file
 
-It writes log inside a `log` folder, sibling of `node_modules` folder.  
-The files are named like `YYYYMMDD.log` and `YYYYMMDD.error.log`.  
+Log is written into `log` folder (sibling of `node_modules`), inside a single file `logfile`.  
