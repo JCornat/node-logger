@@ -2,7 +2,7 @@ import * as fs from 'fs';
 
 const logDirectory = `${__dirname}/../../../log`;
 
-export function write(level: string, log: string) {
+export function write(log: string) {
   if (!fs.existsSync(logDirectory)) {
     fs.mkdirSync(logDirectory);
   }

@@ -1,56 +1,79 @@
+import { Log } from '../class/log';
 import * as File from './file';
 
-export function info(...data: any[]): void {
-  processLog('info', data);
+export function debug(log: Log): void {
+  log.severity = 'debug';
+  processLog(log);
 }
 
-export function debug(...data: any[]): void {
-  processLog('debug', data);
+export function info(log: Log): void {
+  log.severity = 'info';
+  processLog(log);
 }
 
-export function error(...data: any[]): void {
-  processLog('error', data);
+export function error(log: Log): void {
+  log.severity = 'error';
+  processLog(log);
 }
 
-export function warning(...data: any[]): void {
-  processLog('warning', data);
+export function warning(log: Log): void {
+  log.severity = 'warning';
+  processLog(log);
 }
 
-function processLog(level: string, data: any[]): void {
+export function critical(log: Log): void {
+  log.severity = 'critical';
+  processLog(log);
+}
+
+function processLog(log: Log): void {
   try {
-    const line = aggregate(level, data);
-    File.write(level, line);
+    const line = format(log);
+    File.write(line);
   } catch (error) {
     console.error(error);
   }
 }
 
-function aggregate(level: string, data: any[]): string {
-  const res = [];
-
+function format(log: Log): string {
   const currentDate = new Date();
-  res.push(currentDate.toISOString());
+  log.date = currentDate.toISOString();
 
-  for (const item of data) {
-    switch (typeof item) {
-      case 'string':
-      case 'number':
-      case 'boolean':
-      case 'undefined':
-      case null:
-        res.push(item);
-        break;
-      case 'object':
-        res.push(JSON.stringify(item));
-        break;
-      default:
-        throw new Error(`BAD TYPE ${typeof item}`);
-    }
-  }
+  log.user = sanitize(log.user);
+  log.message = sanitize(log.message);
+  log.action = sanitize(log.action);
+  log.status = sanitize(log.status);
 
-  let string = res.join(', ');
+  const order = [
+    'date',
+    'severity',
+    'user',
+    'action',
+    'message',
+    'status',
+  ];
 
+  let string = JSON.stringify(log, order);
   string += `\n`;
 
   return string;
+}
+
+function sanitize(value: any): any {
+  let res;
+
+  switch (typeof value) {
+    case 'string':
+    case 'number':
+    case 'boolean':
+    case 'undefined':
+      res = value;
+      break;
+    case 'object':
+    default:
+      res = JSON.stringify(value);
+      break;
+  }
+
+  return res;
 }
