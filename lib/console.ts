@@ -3,7 +3,7 @@ import { EventEmitter } from "events";
 import { Log } from '../class/log';
 import * as File from './file';
 
-const emitter = new EventEmitter();
+export const emitter = new EventEmitter();
 
 export function debug(log: Log): void {
   log.severity = 'debug';
