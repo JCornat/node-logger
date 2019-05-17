@@ -1,4 +1,4 @@
-import { EventEmitter } from "events";
+import { EventEmitter } from 'events';
 
 import { Log } from '../class/log';
 import * as File from './file';
