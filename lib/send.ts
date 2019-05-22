@@ -14,6 +14,10 @@ export async function config(options: {suffix: any, host: string, port: number, 
   await Redis.connect(redisOptions);
 
   listenLog();
+
+  setInterval(() => {
+    send();
+  }, 1000 * 60);
 }
 
 function listenLog(): void {
@@ -24,6 +28,7 @@ function listenLog(): void {
 
 export async function send(): Promise<void> {
   if (isSending) {
+    console.log('Currently sending log, call canceled');
     return;
   }
 
