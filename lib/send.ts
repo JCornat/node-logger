@@ -8,6 +8,7 @@ let suffix: any;
 
 export async function config(options: {suffix: any, host: string, port: number, url: string}): Promise<void> {
   suffix = options.suffix;
+  url = options.url;
 
   const redisOptions = {host: options.host, port: options.port};
   await Redis.connect(redisOptions);
