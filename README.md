@@ -1,6 +1,6 @@
 # node-logger
 
-Basic Node.js logger module.  
+Basic Node.js logger module.
 
 ### Methods available
 
@@ -32,3 +32,9 @@ Log.debug({action: 'post', message: 'Message sent successfully', status: 200, us
 ### Output file
 
 Log is written into `log` folder (sibling of `node_modules`), inside a single file `logfile`.  
+
+## Synchronizing
+
+You can send automatically logs to an url.  
+This function use Redis.  
+You only have to call : `config` method with your parameters, and the library will save logs into Redis, then send it to a server.
