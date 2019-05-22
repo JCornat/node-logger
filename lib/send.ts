@@ -1,7 +1,7 @@
 import * as Http from './http';
 import * as Log from './log';
 import * as Redis from './redis';
-import { url } from './config';
+import { maxLines, url } from './config';
 
 let isSending: boolean;
 
@@ -40,7 +40,7 @@ export async function send(): Promise<void> {
 }
 
 async function pullLog(): Promise<string[]> {
-  return await Redis.getRangeListLog('log', 0, 100);
+  return await Redis.getRangeListLog('log', 0, maxLines);
 }
 
 function processLogs(data: string[]): any[] {

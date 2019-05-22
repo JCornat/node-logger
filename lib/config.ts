@@ -4,8 +4,10 @@ import * as Send from './send';
 export let url: string;
 export let logDirectory: string;
 export let logFilename: string;
+export let interval: number;
+export let maxLines: number;
 
-export async function config(options: { log?: { directory?: string, filename?: string }, redis?: { host: string, port: number }, url?: string }): Promise<void> {
+export async function config(options: { log?: { directory?: string, filename?: string }, redis?: { host: string, port: number }, url?: string, interval?: number, maxLines?: number }): Promise<void> {
   if (options.log && options.log.directory) {
     logDirectory = options.log.directory;
   } else {
@@ -16,6 +18,18 @@ export async function config(options: { log?: { directory?: string, filename?: s
     logFilename = options.log.filename;
   } else {
     logFilename = 'logfile';
+  }
+
+  if (options.interval) {
+    interval = options.interval;
+  } else {
+    interval = 1000 * 60;
+  }
+
+  if (options.maxLines) {
+    maxLines = options.maxLines;
+  } else {
+    maxLines = 100;
   }
 
   if (options.redis) {
@@ -30,6 +44,6 @@ export async function config(options: { log?: { directory?: string, filename?: s
 
     setInterval(() => {
       Send.send();
-    }, 1000 * 60);
+    }, interval);
   }
 }
