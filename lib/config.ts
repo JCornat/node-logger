@@ -8,42 +8,23 @@ export let interval: number;
 export let maxLines: number;
 
 export async function config(options: { log?: { directory?: string, filename?: string }, redis?: { host: string, port: number }, url?: string, interval?: number, maxLines?: number }): Promise<void> {
-  if (options.log && options.log.directory) {
-    logDirectory = options.log.directory;
-  } else {
-    logDirectory = `${__dirname}/../../../log`;
-  }
-
-  if (options.log && options.log.filename) {
-    logFilename = options.log.filename;
-  } else {
-    logFilename = 'logfile';
-  }
-
-  if (options.interval) {
-    interval = options.interval;
-  } else {
-    interval = 1000 * 60;
-  }
-
-  if (options.maxLines) {
-    maxLines = options.maxLines;
-  } else {
-    maxLines = 100;
-  }
+  logDirectory = (options.log && options.log.directory) ? options.log.directory : `${__dirname}/../../../log`;
+  logFilename = (options.log && options.log.filename) ? options.log.filename : 'logfile';
+  interval = (options.interval) ? options.interval : 1000 * 60;
+  maxLines = (options.maxLines) ? options.maxLines : 100;
 
   if (options.redis) {
     const redisOptions = {host: options.redis.host, port: options.redis.port};
     await Redis.connect(redisOptions);
 
     Send.listenLog();
-  }
 
-  if (options.url) {
-    url = options.url;
+    if (options.url) {
+      url = options.url;
 
-    setInterval(() => {
-      Send.send();
-    }, interval);
+      setInterval(() => {
+        Send.send();
+      }, interval);
+    }
   }
 }
