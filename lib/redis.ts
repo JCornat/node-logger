@@ -26,7 +26,8 @@ export function pushListLog(list: string, value: any): void {
 }
 
 export function pushListRedis(client: RedisClient, list: string, value: any): void {
-  client.rpush(list, value);
+  const string = JSON.stringify(value);
+  client.rpush(list, string);
 }
 
 export async function getRangeListLog(list: string, start = 0, stop = 100): Promise<any> {

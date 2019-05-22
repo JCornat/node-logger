@@ -1,26 +1,11 @@
 import * as Http from './http';
 import * as Log from './log';
 import * as Redis from './redis';
+import { url } from './config';
 
 let isSending: boolean;
-let url: string;
-let suffix: any;
 
-export async function config(options: {suffix: any, host: string, port: number, url: string}): Promise<void> {
-  suffix = options.suffix;
-  url = options.url;
-
-  const redisOptions = {host: options.host, port: options.port};
-  await Redis.connect(redisOptions);
-
-  listenLog();
-
-  setInterval(() => {
-    send();
-  }, 1000 * 60);
-}
-
-function listenLog(): void {
+export function listenLog(): void {
   Log.emitter.on('log', (line) => {
     Redis.pushListLog('log', line);
   });
@@ -54,16 +39,16 @@ export async function send(): Promise<void> {
   }
 }
 
-async function pullLog(): Promise<any[]> {
+async function pullLog(): Promise<string[]> {
   return await Redis.getRangeListLog('log', 0, 100);
 }
 
-function processLogs(data: any[]): any[] {
+function processLogs(data: string[]): any[] {
   const logs = [];
 
   for (const item of data) {
     try {
-      const log = processLog(item);
+      const log = JSON.parse(item);
       logs.push(log);
     } catch (error) {
       console.error('Fail parse', error, item);
@@ -71,16 +56,4 @@ function processLogs(data: any[]): any[] {
   }
 
   return logs;
-}
-
-function processLog(data: string) {
-  const log = JSON.parse(data);
-
-  if (suffix) {
-    for (const key of Object.keys(suffix)) {
-      log.key = suffix;
-    }
-  }
-
-  return log;
 }

@@ -1,13 +1,13 @@
 import * as fs from 'fs';
 
-const logDirectory = `${__dirname}/../../../log`;
+import { logDirectory, logFilename } from './config';
 
 export function write(log: string) {
   if (!fs.existsSync(logDirectory)) {
     fs.mkdirSync(logDirectory);
   }
 
-  let stream = fs.createWriteStream(`${logDirectory}/logfile`, {flags: 'a'});
+  let stream = fs.createWriteStream(`${logDirectory}/${logFilename}`, {flags: 'a'});
   stream.write(log);
   stream.end();
 }

@@ -1,3 +1,5 @@
+import { URL } from 'url';
+
 const https = require('https');
 
 export async function post(options: {url: string, data: any}): Promise<any> {
