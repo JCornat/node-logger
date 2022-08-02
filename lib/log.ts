@@ -66,10 +66,10 @@ function format(log: Log): string {
     'status',
   ];
 
-  let string = JSON.stringify(log, order);
-  string += `\n`;
+  let result = JSON.stringify(log, order);
+  result += `\n`;
 
-  return string;
+  return result;
 }
 
 function sanitize(value: any): any {
