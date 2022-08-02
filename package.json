@@ -22,12 +22,8 @@
     "url": "https://github.com/JCornat/node-logger/issues"
   },
   "homepage": "https://github.com/JCornat/node-logger#readme",
-  "dependencies": {
-    "redis": "4.2.0"
-  },
   "devDependencies": {
     "@types/node": "18.6.3",
-    "@types/redis": "4.0.11",
     "typescript": "4.7.4"
   }
 }
