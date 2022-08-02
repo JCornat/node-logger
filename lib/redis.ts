@@ -1,5 +1,5 @@
-import * as redis from 'redis';
 import { RedisClient } from 'redis';
+import * as redis from 'redis';
 
 let logClient: RedisClient;
 
@@ -8,7 +8,7 @@ export async function connect(options: {host: string, port: number}): Promise<vo
   await waitRedisConnection(logClient);
 }
 
-function waitRedisConnection(client: RedisClient) {
+function waitRedisConnection(client: RedisClient): Promise<void> {
   return new Promise(async (resolve, reject) => {
     client.on('error', (error) => {
       console.error(error);

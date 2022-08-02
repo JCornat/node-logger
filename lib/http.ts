@@ -1,6 +1,5 @@
 import { URL } from 'url';
-
-const https = require('https');
+import * as https from 'https';
 
 export async function post(options: {url: string, data: any}): Promise<any> {
   return new Promise((resolve, reject) => {
