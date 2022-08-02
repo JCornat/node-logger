@@ -3,30 +3,38 @@ import { EventEmitter } from 'events';
 import { Log } from '../class/log';
 import * as File from './file';
 
+export enum Severity {
+  debug = 'debug',
+  info = 'info',
+  error = 'error',
+  warning = 'warning',
+  critical = 'critical',
+}
+
 export const emitter = new EventEmitter();
 
 export function debug(log: Log): void {
-  log.severity = 'debug';
+  log.severity = Severity.debug;
   processLog(log);
 }
 
 export function info(log: Log): void {
-  log.severity = 'info';
+  log.severity = Severity.info;
   processLog(log);
 }
 
 export function error(log: Log): void {
-  log.severity = 'error';
+  log.severity = Severity.error;
   processLog(log);
 }
 
 export function warning(log: Log): void {
-  log.severity = 'warning';
+  log.severity = Severity.warning;
   processLog(log);
 }
 
 export function critical(log: Log): void {
-  log.severity = 'critical';
+  log.severity = Severity.critical;
   processLog(log);
 }
 

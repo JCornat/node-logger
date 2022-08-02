@@ -1,31 +1,11 @@
-import { Config } from '../class/config';
-import * as Redis from './redis';
-import * as Send from './send';
+import * as path from 'path';
 
-export let url: string;
+import { Config } from '../class/config';
+
 export let logDirectory: string;
 export let logFilename: string;
-export let interval: number;
-export let maxLines: number;
 
 export async function config(options: Config): Promise<void> {
-  logDirectory = (options.log && options.log.directory) ? options.log.directory : `${__dirname}/../../../log`;
+  logDirectory = (options.log && options.log.directory) ? options.log.directory : path.join(__dirname, '..', '..', '..', 'log');
   logFilename = (options.log && options.log.filename) ? options.log.filename : 'logfile';
-  interval = (options.interval) ? options.interval : 1000 * 60;
-  maxLines = (options.maxLines) ? options.maxLines : 100;
-
-  if (options.redis) {
-    const redisOptions = {host: options.redis.host, port: options.redis.port};
-    await Redis.connect(redisOptions);
-
-    Send.listenLog();
-
-    if (options.url) {
-      url = options.url;
-
-      setInterval(() => {
-        Send.send();
-      }, interval);
-    }
-  }
 }
