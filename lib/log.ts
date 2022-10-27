@@ -1,6 +1,5 @@
 import { EventEmitter } from 'events';
 
-import { Log } from '../class/log';
 import * as File from './file';
 
 export enum Severity {
@@ -9,6 +8,16 @@ export enum Severity {
   error = 'error',
   warning = 'warning',
   critical = 'critical',
+}
+
+export interface Log {
+  date?: string;
+  severity?: Severity;
+  userModel?: { id: number, type: number };
+  action?: string;
+  message?: string;
+  status?: string | number;
+  [key: string]: any;
 }
 
 export const emitter = new EventEmitter();
@@ -38,38 +47,33 @@ export function critical(log: Log): void {
   processLog(log);
 }
 
-function processLog(log: Log): void {
+function processLog(data: Log): void {
   try {
-    const line = format(log);
-    File.write(line);
+    const log = formatLog(data);
     emitter.emit('log', log);
+
+    const line = formatLine(log);
+    File.write(line);
   } catch (error) {
     console.error(error);
   }
 }
 
-function format(log: Log): string {
+function formatLog(log: Log): Log {
+  const res: Log = {};
+  for (const key of Object.keys(log)) {
+    const sanitizedContent = sanitize(log[key]);
+    if (sanitizedContent === undefined) { // Remove undefined values
+      continue;
+    }
+
+    res[key] = sanitizedContent;
+  }
+
   const currentDate = new Date();
-  log.date = currentDate.toISOString();
+  res.date = currentDate.toISOString();
 
-  log.user = sanitize(log.user);
-  log.message = sanitize(log.message);
-  log.action = sanitize(log.action);
-  log.status = sanitize(log.status);
-
-  const order = [
-    'date',
-    'severity',
-    'user',
-    'action',
-    'message',
-    'status',
-  ];
-
-  let result = JSON.stringify(log, order);
-  result += `\n`;
-
-  return result;
+  return res;
 }
 
 function sanitize(value: any): any {
@@ -89,4 +93,8 @@ function sanitize(value: any): any {
   }
 
   return res;
+}
+
+function formatLine(log: Log): string {
+  return `${JSON.stringify(log)}\n`;
 }
